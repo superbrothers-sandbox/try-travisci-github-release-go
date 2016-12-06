@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e
+
+# the current git commit hash
+COMMIT=`git rev-parse HEAD`
+
+# the current git tag
+VERSION=$(git describe --exact-match --abbrev=0 --tags ${COMMIT} 2> /dev/null || true)
+[ -z "$VERSION"  ] && VERSION=$COMMIT
+
+# check for changed files (not untracked files)
+[ -n "$(git diff --shortstat 2> /dev/null | tail -n1)"  ] && VERSION="${VERSION}-dirty"
+
+TARGET=github.com/superbrothers-sandbox/try-travisci-github-release-go
+BINARY=${BINARY:-bin/hello}
+LDFLAGS="-X 'main.gitVersion=${VERSION}' -X 'main.gitCommit=${COMMIT}'"
+
+CGO_ENABLED=0 go build -a -installsuffix cgo -o=$BINARY -ldflags "$LDFLAGS"
+# vim: ft=sh ts=2 st=2 sw=2 :

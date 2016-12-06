@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+PLATFORMS="linux/amd64 darwin/amd64 freebsd/amd64 windows/amd64"
+
+for PLATFORM in $PLATFORMS; do
+  export GOOS=${PLATFORM%/*}
+  export GOARCH=${PLATFORM#*/}
+  export BINARY="dist/hello-${GOOS}-${GOARCH}"
+  ./build
+  sha256sum "$BINARY" | head -c 64 > "$BINARY".sha256
+done
+# vim: ft=sh ts=2 st=2 sw=2 :

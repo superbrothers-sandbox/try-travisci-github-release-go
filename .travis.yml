@@ -1,0 +1,16 @@
+language: go
+go:
+- 1.7
+script:
+- go test -v ./...
+before_deploy:
+- ./release
+deploy:
+  provider: releases
+  api_key:
+    secure: "oXycHqW9WaRJvfWeNOKEElHzolcaEGc9WCPa9f6j5xUD5ZMA4hjAeJrj+HhrdjfUIiGOvIUY2k1VYcDbHPIWJ9HtC7xg1oa+ZRt+qFvT93JteNnfGG/gVabbJMOtohNKy01jbJoBHLNoDlken7+4kmPJdxFvr1/lQtc7YvM0B/qr7ZxxnC3uKePHIUkSJw/AutPVVVu7M2xJoABqSfREvdyD5zSVKNH7zcuXj7mTIOMdoAcpLNjLDo+X0jFam78dVYQSmIA3d4jaG7KJR47f3L93kPhVPEfZA0FP7iG9vqGg66TjoUca1qFX/kBGn05QSXEZjPUj3c3w5qAT67fKBOiH88fgWgciwWxU50FWiY5AsmgwiLpyPxYoIodTiBMfTRP4MycdaDSgTiX5QBmdlaLDF/PoUVxsXBXMKu/fxq/Kq7mIYc0pbkZlFwqtsjBccvypukeBPMNfLrzL4EVML+P2Oih4edHLcKmXGwbBBonCVHrdd1OZSmKpESe1ZPwXlsuulEJ9m2pqpvNMlqgSNbd7TETQfK/sK04VcCuRgYguMEpGwb0PN7L5S/Wa2s6YBQS7cPwomgkw46MBqKGwBGZmrsJY/M7bEdFTwlJesoHfZOHc7khOXziQAjTAaeRcpvAWzXMz9E7zbxvCVI+Hg1e1/dsn3hUQKUhlBtLLxvY="
+  skip_cleanup: true
+  file_glob: true
+  file: "dist/*"
+  on:
+    tags: true
